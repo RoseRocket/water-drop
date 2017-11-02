@@ -19,10 +19,9 @@ export function cp(stepOptions = {}, context = {}, options = {}) {
     const properToPath = toTemplate(context).replace(/\/\//gi, '/');
     const absoluteToPath = path.resolve(properToPath);
 
-    const properWhatPath = (`templates/${context.templateType}/` + stepOptions.what).replace(
-        /\/\//i,
-        '/'
-    );
+    const properWhatPath = (`${context.waterDropTemplateFolder}/${context.templateType}/` +
+        stepOptions.what
+    ).replace(/\/\//i, '/');
     const absoluteWhatPath = path.resolve(properWhatPath);
 
     if (isVerbose) {

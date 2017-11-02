@@ -3,8 +3,8 @@ import hbsHelpers from '../../utils/hbsHelpers.js';
 import path from 'path';
 import { happyLog } from '../../utils/utils.js';
 import fs from 'fs';
+import appConfig from '../../../config/config.json';
 
-const ENCODING = 'utf8';
 const COMMAND = 'cpf';
 const Handlebars = hbsHelpers(hbs);
 
@@ -23,10 +23,9 @@ export function cpf(stepOptions = {}, context = {}, options = {}) {
     const properToPath = toTemplate(context).replace(/\/\//gi, '/');
     const absoluteToPath = path.resolve(properToPath);
 
-    const properWhatPath = (`templates/${context.templateType}/` + stepOptions.what).replace(
-        /\/\//i,
-        '/'
-    );
+    const properWhatPath = (`${context.waterDropTemplateFolder}/${context.templateType}/` +
+        stepOptions.what
+    ).replace(/\/\//i, '/');
     const absoluteWhatPath = path.resolve(properWhatPath);
 
     if (isVerbose) {
@@ -36,7 +35,7 @@ export function cpf(stepOptions = {}, context = {}, options = {}) {
 
     let contents;
     try {
-        contents = fs.readFileSync(absoluteWhatPath, ENCODING);
+        contents = fs.readFileSync(absoluteWhatPath, appConfig.fileEncoding);
     } catch (error) {
         return `...."${COMMAND}" failed with ${error}`;
     }
@@ -44,11 +43,14 @@ export function cpf(stepOptions = {}, context = {}, options = {}) {
     const contentsTemplate = Handlebars.compile(contents);
     let properContent = contentsTemplate(context);
 
-    properContent = properContent.replace(/{%/gi, '{{');
-    properContent = properContent.replace(/%}/gi, '}}');
+    const regexOpenTag = new RegExp(context.openTag, 'gi');
+    const regexCloseTag = new RegExp(context.closeTag, 'gi');
+
+    properContent = properContent.replace(regexOpenTag, '{{');
+    properContent = properContent.replace(regexCloseTag, '}}');
 
     try {
-        fs.writeFileSync(absoluteToPath, properContent, ENCODING);
+        fs.writeFileSync(absoluteToPath, properContent, appConfig.fileEncoding);
     } catch (error) {
         return `...."${COMMAND}" failed with ${error}`;
     }

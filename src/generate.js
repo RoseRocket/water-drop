@@ -1,18 +1,57 @@
 const argv = require('minimist')(process.argv.slice(2));
 import chalk from 'chalk';
-import config from '../config/config.json';
 import stepCmds from './stepCmds';
-import { hardExit, happyLog } from './utils/utils.js';
+import { hardExit, happyLog, getAppConfigPath, getAppConfig } from './utils/utils.js';
+import fs from 'fs';
+import mkdirp from 'mkdirp';
+import path from 'path';
+import initConfig from '../config/.water_drop.json';
+import appConfig from '../config/config.json';
 
-const { vars: configVars } = config;
-
-const { t: templateType, n: templateName, p: templatePath, h: helpArg, v: verboseArg } = argv;
+const {
+    t: templateType,
+    n: templateName,
+    p: templatePath,
+    h: helpArg,
+    v: verboseArg,
+    init: initArg,
+    list: listArg,
+} = argv;
 
 export default function generate(options = {}) {
+    console.log('\n');
+
+    // If init option was passed then we want to create initial structure
+    if (initArg) {
+        return generateInitConfig();
+    }
+
+    // First check that the folder where we execute water-drop has config file within
+    if (!checkIfConfigExists()) {
+        console.log(
+            chalk.red('Looks like the current folder does not have water-drop config file within.')
+        );
+        console.log(
+            chalk.red('Run: "water-drop --init" to create basic config file and a template folder.')
+        );
+        console.log(chalk.red('Exiting...'));
+        console.log('\n');
+
+        hardExit();
+    }
+
+    // read config file
+    let config = getAppConfig();
+    if (!config) {
+        hardExit();
+    }
+
+    const { vars: configVars } = config;
+
     // Parse CLI args and be sure that they make sense
     if (
         !parseCLIArgs(
-            { helpArg, templateType, templateName, templatePath },
+            { helpArg, listArg, templateType, templateName, templatePath },
             Object.keys(config.templates)
         )
     ) {
@@ -25,7 +64,16 @@ export default function generate(options = {}) {
     const { steps = [], vars: templateVars } = templateConfig;
 
     // create HBS context
-    const context = { ...configVars, ...templateVars, templateType, templateName, templatePath };
+    const context = {
+        ...configVars,
+        ...templateVars,
+        templateType,
+        templateName,
+        templatePath,
+        waterDropTemplateFolder: config.waterDropTemplateFolder,
+        openTag: config.openTag,
+        closeTag: config.closeTag,
+    };
 
     // Pre-parse steps to be sure config is alright before we start moving files around
     if (!preParseSteps(steps)) {
@@ -38,16 +86,45 @@ export default function generate(options = {}) {
     happyLog('✨ ✨ ✨     The work is complete and the template was created!    ✨ ✨ ✨');
 }
 
+export function checkIfConfigExists() {
+    return fs.existsSync(getAppConfigPath());
+}
+
+export function generateInitConfig() {
+    try {
+        fs.writeFileSync(
+            getAppConfigPath(),
+            JSON.stringify(initConfig, null, appConfig.jsonTabs),
+            appConfig.fileEncoding
+        );
+
+        mkdirp.sync(process.cwd() + '/' + initConfig.waterDropTemplateFolder + '/example');
+
+        happyLog(
+            '💧     This folder has a water-drop config now. You can create templates now. Run "water-drop -h" to learn more.   💧'
+        );
+    } catch (error) {
+        console.log(chalk.red(`Failed to create initial config with error: ${error}`));
+        console.log(chalk.red('Exiting...'));
+        console.log('\n');
+
+        hardExit();
+    }
+}
+
 export function parseCLIArgs(args = {}, templateTypes) {
-    const { helpArg, templateType, templateName, templatePath } = args;
+    const { helpArg, listArg, templateType, templateName, templatePath } = args;
 
     if (helpArg) {
         console.log(
-            chalk.blueBright('Usage: node app.js -t <template_type> -n <template_name> -p <path>')
+            chalk.blueBright('node app.js [-v] -t <template_type> -n <template_name> -p <path>')
         );
+        console.log('\n');
+        console.log(chalk.blueBright('node app.js --list (To see all available template types)'));
+        console.log('\n');
         console.log(
             chalk.blueBright(
-                'I know these templates: ',
+                'water-drop found the following templates: ',
                 chalk.yellow.bgBlue.bold(templateTypes.join(' '))
             )
         );
@@ -57,7 +134,18 @@ export function parseCLIArgs(args = {}, templateTypes) {
         console.log(
             chalk.blueBright('Example for path: ', chalk.yellow.bgBlue.bold('/admin/customers'))
         );
-        console.log(chalk.blueBright('Exiting...'));
+        console.log('\n');
+
+        return;
+    }
+
+    if (listArg) {
+        console.log(
+            chalk.blueBright(
+                'Available templates: ',
+                chalk.yellow.bgBlue.bold(templateTypes.join(' '))
+            )
+        );
         console.log('\n');
 
         return;
@@ -65,9 +153,12 @@ export function parseCLIArgs(args = {}, templateTypes) {
 
     if (!templateType) {
         console.log(chalk.red('Uh oh. You forgot to specify <template_type>!'));
-        console.log(chalk.red('Run: node app.js -h to find on how to use this tool'));
+        console.log(chalk.red('Run      node app.js -h      to find on how to use this tool'));
         console.log(
-            chalk.red('I know these templates: ', chalk.yellow.bgRed.bold(templateTypes.join(' ')))
+            chalk.red(
+                'water-drop found the following templates: ',
+                chalk.yellow.bgRed.bold(templateTypes.join(' '))
+            )
         );
         console.log(chalk.red('Example for path: ', chalk.yellow.bgRed.bold('/admin/customers')));
         console.log(chalk.red('Exiting...'));

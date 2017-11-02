@@ -1,0 +1,14 @@
+{
+    "templates": {
+        "example": {
+            "steps": [{ "cmd": "mkdir", "path": "{{destinationPath}}/{{lcase templateName}}" }],
+            "vars": {}
+        }
+    },
+    "vars": {
+        "destinationPath": "some/path/to/my/project"
+    },
+    "waterDropTemplateFolder": "water-drop-templates",
+    "openTag": "{%",
+    "closeTag": "%}"
+}

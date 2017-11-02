@@ -23,10 +23,6 @@ var _path2 = _interopRequireDefault(_path);
 
 var _utils = require('../../utils/utils.js');
 
-var utils = _interopRequireWildcard(_utils);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var COMMAND = 'mkdir';
@@ -48,7 +44,7 @@ function mkdir() {
     var absolutePath = _path2.default.resolve(properPath);
 
     if (isVerbose) {
-        utils.happyLog('..Going to generate ' + absolutePath);
+        (0, _utils.happyLog)('..Going to generate ' + absolutePath);
     }
 
     try {
@@ -58,6 +54,6 @@ function mkdir() {
     }
 
     if (isVerbose) {
-        utils.happyLog('....Generated ' + absolutePath);
+        (0, _utils.happyLog)('....Generated ' + absolutePath);
     }
 }

@@ -5,11 +5,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.cp = cp;
 
-var _chalk = require('chalk');
+var _path = require('path');
 
-var _chalk2 = _interopRequireDefault(_chalk);
+var _path2 = _interopRequireDefault(_path);
+
+var _utils = require('../../utils/utils.js');
+
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var COMMAND = 'cp';
 
 function cp() {
     var stepOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -18,9 +26,35 @@ function cp() {
     var isVerbose = options.isVerbose;
 
 
-    if (isVerbose) {
-        console.log('\n');
-        console.log(_chalk2.default.blueBright('Going to execute "cp" command'));
-        console.log('\n');
+    if (!stepOptions.what) {
+        return '"' + COMMAND + '" is missing "what" property';
     }
+
+    if (!stepOptions.to) {
+        return '"' + COMMAND + '" is missing "to" property';
+    }
+
+    var toTemplate = Handlebars.compile(stepOptions.to);
+    var properToPath = toTemplate(context).replace(/\/\//gi, '/');
+    var absoluteToPath = _path2.default.resolve(properToPath);
+
+    var properWhatPath = (context.waterDropTemplateFolder + '/' + context.templateType + '/' + stepOptions.what).replace(/\/\//i, '/');
+    var absoluteWhatPath = _path2.default.resolve(properWhatPath);
+
+    if (isVerbose) {
+        (0, _utils.happyLog)('..Going to copy ' + absoluteToPath);
+        (0, _utils.happyLog)('..Based on ' + absoluteWhatPath);
+    }
+
+    try {
+        _fs2.default.copyFileSync(absoluteWhatPath, absoluteToPath);
+    } catch (error) {
+        return '...."' + COMMAND + '" failed with ' + error;
+    }
+
+    if (isVerbose) {
+        (0, _utils.happyLog)('....Generated ' + absoluteToPath);
+    }
+
+    return;
 }

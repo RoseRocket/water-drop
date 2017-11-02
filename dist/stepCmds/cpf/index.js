@@ -19,17 +19,16 @@ var _path2 = _interopRequireDefault(_path);
 
 var _utils = require('../../utils/utils.js');
 
-var utils = _interopRequireWildcard(_utils);
-
 var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _config = require('../../../config/config.json');
+
+var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ENCODING = 'utf8';
 var COMMAND = 'cpf';
 var Handlebars = (0, _hbsHelpers2.default)(_handlebars2.default);
 
@@ -52,17 +51,17 @@ function cpf() {
     var properToPath = toTemplate(context).replace(/\/\//gi, '/');
     var absoluteToPath = _path2.default.resolve(properToPath);
 
-    var properWhatPath = ('templates/' + context.templateType + '/' + stepOptions.what).replace(/\/\//i, '/');
+    var properWhatPath = (context.waterDropTemplateFolder + '/' + context.templateType + '/' + stepOptions.what).replace(/\/\//i, '/');
     var absoluteWhatPath = _path2.default.resolve(properWhatPath);
 
     if (isVerbose) {
-        utils.happyLog('..Going to generate ' + absoluteToPath);
-        utils.happyLog('..Based on ' + absoluteWhatPath);
+        (0, _utils.happyLog)('..Going to generate ' + absoluteToPath);
+        (0, _utils.happyLog)('..Based on ' + absoluteWhatPath);
     }
 
     var contents = void 0;
     try {
-        contents = _fs2.default.readFileSync(absoluteWhatPath, ENCODING);
+        contents = _fs2.default.readFileSync(absoluteWhatPath, _config2.default.fileEncoding);
     } catch (error) {
         return '...."' + COMMAND + '" failed with ' + error;
     }
@@ -70,17 +69,20 @@ function cpf() {
     var contentsTemplate = Handlebars.compile(contents);
     var properContent = contentsTemplate(context);
 
-    properContent = properContent.replace(/{%/gi, '{{');
-    properContent = properContent.replace(/%}/gi, '}}');
+    var regexOpenTag = new RegExp(context.openTag, 'gi');
+    var regexCloseTag = new RegExp(context.closeTag, 'gi');
+
+    properContent = properContent.replace(regexOpenTag, '{{');
+    properContent = properContent.replace(regexCloseTag, '}}');
 
     try {
-        _fs2.default.writeFileSync(absoluteToPath, properContent, ENCODING);
+        _fs2.default.writeFileSync(absoluteToPath, properContent, _config2.default.fileEncoding);
     } catch (error) {
         return '...."' + COMMAND + '" failed with ' + error;
     }
 
     if (isVerbose) {
-        utils.happyLog('....Generated ' + absoluteToPath);
+        (0, _utils.happyLog)('....Generated ' + absoluteToPath);
     }
 
     return;
