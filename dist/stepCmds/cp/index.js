@@ -11,9 +11,9 @@ var _path2 = _interopRequireDefault(_path);
 
 var _utils = require('../../utils/utils.js');
 
-var _fs = require('fs');
+var _fsExtra = require('fs-extra');
 
-var _fs2 = _interopRequireDefault(_fs);
+var _fsExtra2 = _interopRequireDefault(_fsExtra);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38,7 +38,7 @@ function cp() {
     var properToPath = toTemplate(context).replace(/\/\//gi, '/');
     var absoluteToPath = _path2.default.resolve(properToPath);
 
-    var properWhatPath = (context.waterDropTemplateFolder + '/' + context.templateType + '/' + stepOptions.what).replace(/\/\//i, '/');
+    var properWhatPath = (context._tFolder + '/' + context._tType + '/' + stepOptions.what).replace(/\/\//i, '/');
     var absoluteWhatPath = _path2.default.resolve(properWhatPath);
 
     if (isVerbose) {
@@ -47,7 +47,7 @@ function cp() {
     }
 
     try {
-        _fs2.default.copyFileSync(absoluteWhatPath, absoluteToPath);
+        _fsExtra2.default.copyFileSync(absoluteWhatPath, absoluteToPath);
     } catch (error) {
         return '...."' + COMMAND + '" failed with ' + error;
     }

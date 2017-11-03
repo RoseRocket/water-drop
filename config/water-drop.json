@@ -1,0 +1,22 @@
+{
+    "templates": {
+        "example": {
+            "steps": [
+                { "cmd": "mkdir", "path": "{{projectPath}}/{{lcase _tName}}/{{_tPath}}" },
+                {
+                    "cmd": "cpf",
+                    "what": "example.js",
+                    "to": "{{projectPath}}/{{lcase _tName}}/{{_tPath}}/example.js"
+                }
+            ],
+
+            "vars": {}
+        }
+    },
+    "vars": {
+        "projectPath": "../"
+    },
+    "_tFolder": "water-drop-templates",
+    "_tOpenTag": "<%%",
+    "_tCloseTag": "%%>"
+}

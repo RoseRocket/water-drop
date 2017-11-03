@@ -1,6 +1,6 @@
 {
     "name": "water-drop",
-    "version": "0.9.0",
+    "version": "1.0.0",
     "author": "anvk",
     "main": "index.js",
     "bin": {
@@ -8,7 +8,7 @@
     },
     "preferGlobal": true,
     "description":
-        "💧 multi-language very easy to use scaffolding tool for creating modules within your existing projects",
+        "💧 very easy to use multi-language scaffolding/boilerplate tool for creating code within your existing projects",
     "contributors": [
         {
             "name": "Alexey Novak",
@@ -30,6 +30,7 @@
     "keywords": [],
     "dependencies": {
         "chalk": "2.3.0",
+        "fs-extra": "4.0.2",
         "handlebars": "4.0.11",
         "minimist": "1.2.0",
         "mkdirp": "0.5.1"

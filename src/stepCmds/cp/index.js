@@ -1,6 +1,6 @@
 import path from 'path';
 import { happyLog } from '../../utils/utils.js';
-import fs from 'fs';
+import fs from 'fs-extra';
 
 const COMMAND = 'cp';
 
@@ -19,9 +19,10 @@ export function cp(stepOptions = {}, context = {}, options = {}) {
     const properToPath = toTemplate(context).replace(/\/\//gi, '/');
     const absoluteToPath = path.resolve(properToPath);
 
-    const properWhatPath = (`${context.waterDropTemplateFolder}/${context.templateType}/` +
-        stepOptions.what
-    ).replace(/\/\//i, '/');
+    const properWhatPath = (`${context._tFolder}/${context._tType}/` + stepOptions.what).replace(
+        /\/\//i,
+        '/'
+    );
     const absoluteWhatPath = path.resolve(properWhatPath);
 
     if (isVerbose) {

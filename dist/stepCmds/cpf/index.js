@@ -19,9 +19,9 @@ var _path2 = _interopRequireDefault(_path);
 
 var _utils = require('../../utils/utils.js');
 
-var _fs = require('fs');
+var _fsExtra = require('fs-extra');
 
-var _fs2 = _interopRequireDefault(_fs);
+var _fsExtra2 = _interopRequireDefault(_fsExtra);
 
 var _config = require('../../../config/config.json');
 
@@ -51,7 +51,7 @@ function cpf() {
     var properToPath = toTemplate(context).replace(/\/\//gi, '/');
     var absoluteToPath = _path2.default.resolve(properToPath);
 
-    var properWhatPath = (context.waterDropTemplateFolder + '/' + context.templateType + '/' + stepOptions.what).replace(/\/\//i, '/');
+    var properWhatPath = (context._tFolder + '/' + context._tType + '/' + stepOptions.what).replace(/\/\//i, '/');
     var absoluteWhatPath = _path2.default.resolve(properWhatPath);
 
     if (isVerbose) {
@@ -61,7 +61,7 @@ function cpf() {
 
     var contents = void 0;
     try {
-        contents = _fs2.default.readFileSync(absoluteWhatPath, _config2.default.fileEncoding);
+        contents = _fsExtra2.default.readFileSync(absoluteWhatPath, _config2.default.fileEncoding);
     } catch (error) {
         return '...."' + COMMAND + '" failed with ' + error;
     }
@@ -69,14 +69,14 @@ function cpf() {
     var contentsTemplate = Handlebars.compile(contents);
     var properContent = contentsTemplate(context);
 
-    var regexOpenTag = new RegExp(context.openTag, 'gi');
-    var regexCloseTag = new RegExp(context.closeTag, 'gi');
+    var regexOpenTag = new RegExp(context._tOpenTag, 'gi');
+    var regexCloseTag = new RegExp(context._tCloseTag, 'gi');
 
     properContent = properContent.replace(regexOpenTag, '{{');
     properContent = properContent.replace(regexCloseTag, '}}');
 
     try {
-        _fs2.default.writeFileSync(absoluteToPath, properContent, _config2.default.fileEncoding);
+        _fsExtra2.default.writeFileSync(absoluteToPath, properContent, _config2.default.fileEncoding);
     } catch (error) {
         return '...."' + COMMAND + '" failed with ' + error;
     }

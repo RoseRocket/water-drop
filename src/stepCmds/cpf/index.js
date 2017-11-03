@@ -2,7 +2,7 @@ import hbs from 'handlebars';
 import hbsHelpers from '../../utils/hbsHelpers.js';
 import path from 'path';
 import { happyLog } from '../../utils/utils.js';
-import fs from 'fs';
+import fs from 'fs-extra';
 import appConfig from '../../../config/config.json';
 
 const COMMAND = 'cpf';
@@ -23,9 +23,10 @@ export function cpf(stepOptions = {}, context = {}, options = {}) {
     const properToPath = toTemplate(context).replace(/\/\//gi, '/');
     const absoluteToPath = path.resolve(properToPath);
 
-    const properWhatPath = (`${context.waterDropTemplateFolder}/${context.templateType}/` +
-        stepOptions.what
-    ).replace(/\/\//i, '/');
+    const properWhatPath = (`${context._tFolder}/${context._tType}/` + stepOptions.what).replace(
+        /\/\//i,
+        '/'
+    );
     const absoluteWhatPath = path.resolve(properWhatPath);
 
     if (isVerbose) {
@@ -43,8 +44,8 @@ export function cpf(stepOptions = {}, context = {}, options = {}) {
     const contentsTemplate = Handlebars.compile(contents);
     let properContent = contentsTemplate(context);
 
-    const regexOpenTag = new RegExp(context.openTag, 'gi');
-    const regexCloseTag = new RegExp(context.closeTag, 'gi');
+    const regexOpenTag = new RegExp(context._tOpenTag, 'gi');
+    const regexCloseTag = new RegExp(context._tCloseTag, 'gi');
 
     properContent = properContent.replace(regexOpenTag, '{{');
     properContent = properContent.replace(regexCloseTag, '}}');

@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.happyLog = happyLog;
-exports.hardExit = hardExit;
 exports.toUnderscore = toUnderscore;
 exports.getAppConfigPath = getAppConfigPath;
 exports.getAppConfig = getAppConfig;
@@ -21,19 +20,15 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _fs = require('fs');
+var _fsExtra = require('fs-extra');
 
-var _fs2 = _interopRequireDefault(_fs);
+var _fsExtra2 = _interopRequireDefault(_fsExtra);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function happyLog() {
     console.log(_chalk2.default.blueBright.apply(_chalk2.default, arguments));
     console.log('\n');
-}
-
-function hardExit() {
-    process.exit(0);
 }
 
 function toUnderscore(value) {
@@ -49,7 +44,7 @@ function getAppConfigPath() {
 function getAppConfig() {
     var contents = void 0;
     try {
-        contents = _fs2.default.readFileSync(getAppConfigPath(), _config2.default.fileEncoding);
+        contents = _fsExtra2.default.readFileSync(getAppConfigPath(), _config2.default.fileEncoding);
     } catch (error) {
         console.log(_chalk2.default.red('...."getAppConfig()" failed with ' + error));
         console.log(_chalk2.default.red('Exiting...'));

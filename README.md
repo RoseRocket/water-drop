@@ -1,6 +1,6 @@
 # water-drop [![Build Status](https://travis-ci.org/anvk/water-drop.svg?branch=master)](https://travis-ci.org/anvk/water-drop)
 
-> 💧 multi-language very easy to use scaffolding tool for creating modules within your existing projects
+> 💧 very easy to use multi-language scaffolding/boilerplate tool for creating code within your existing projects
 
 ## Install
 

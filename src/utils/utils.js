@@ -1,15 +1,11 @@
 import chalk from 'chalk';
 import appConfig from '../../config/config.json';
 import path from 'path';
-import fs from 'fs';
+import fs from 'fs-extra';
 
 export function happyLog(...args) {
     console.log(chalk.blueBright(...args));
     console.log('\n');
-}
-
-export function hardExit() {
-    process.exit(0);
 }
 
 export function toUnderscore(value) {
