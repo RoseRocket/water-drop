@@ -157,9 +157,9 @@ function parseCLIArgs() {
 
 
     if (helpArg || !templateType) {
-        console.log(_chalk2.default.blueBright('node app.js [-v] -t <template_type> -n <template_name> -p <path>'));
+        console.log(_chalk2.default.blueBright('water-drop [-v] -t <template_type> -n <template_name> -p <template_path>'));
         console.log('\n');
-        console.log(_chalk2.default.blueBright('node app.js --list (To see all available template types)'));
+        console.log(_chalk2.default.blueBright('water-drop --list (To see all available template types)'));
         console.log('\n');
         console.log(_chalk2.default.blueBright('water-drop found the following templates: ', _chalk2.default.yellow.bgBlue.bold(templateTypes.join(' '))));
         console.log(_chalk2.default.blueBright('Example for name: ', _chalk2.default.yellow.bgBlue.bold('MyNewShinyModule')));
@@ -187,7 +187,7 @@ function parseCLIArgs() {
 
     if (!templateName) {
         console.log(_chalk2.default.red('Uh oh. I need a <template_name> to work correctly!'));
-        console.log(_chalk2.default.red('Run: node app.js -h to find on how to use this tool'));
+        console.log(_chalk2.default.red('Run: water-drop -h to find on how to use this tool'));
         console.log(_chalk2.default.red('Exiting...'));
         console.log('\n');
 
@@ -196,7 +196,7 @@ function parseCLIArgs() {
 
     if (!templatePath) {
         console.log(_chalk2.default.red('Uh oh. I need a <path> to work correctly!'));
-        console.log(_chalk2.default.red('Run: node app.js -h to find on how to use this tool'));
+        console.log(_chalk2.default.red('Run: water-drop -h to find on how to use this tool'));
         console.log(_chalk2.default.red('Exiting...'));
         console.log('\n');
 

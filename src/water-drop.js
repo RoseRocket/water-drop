@@ -121,10 +121,12 @@ export function parseCLIArgs(args = {}, templateTypes) {
 
     if (helpArg || !templateType) {
         console.log(
-            chalk.blueBright('node app.js [-v] -t <template_type> -n <template_name> -p <path>')
+            chalk.blueBright(
+                'water-drop [-v] -t <template_type> -n <template_name> -p <template_path>'
+            )
         );
         console.log('\n');
-        console.log(chalk.blueBright('node app.js --list (To see all available template types)'));
+        console.log(chalk.blueBright('water-drop --list (To see all available template types)'));
         console.log('\n');
         console.log(
             chalk.blueBright(
@@ -171,7 +173,7 @@ export function parseCLIArgs(args = {}, templateTypes) {
 
     if (!templateName) {
         console.log(chalk.red('Uh oh. I need a <template_name> to work correctly!'));
-        console.log(chalk.red('Run: node app.js -h to find on how to use this tool'));
+        console.log(chalk.red('Run: water-drop -h to find on how to use this tool'));
         console.log(chalk.red('Exiting...'));
         console.log('\n');
 
@@ -180,7 +182,7 @@ export function parseCLIArgs(args = {}, templateTypes) {
 
     if (!templatePath) {
         console.log(chalk.red('Uh oh. I need a <path> to work correctly!'));
-        console.log(chalk.red('Run: node app.js -h to find on how to use this tool'));
+        console.log(chalk.red('Run: water-drop -h to find on how to use this tool'));
         console.log(chalk.red('Exiting...'));
         console.log('\n');
 
