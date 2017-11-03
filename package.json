@@ -1,6 +1,6 @@
 {
     "name": "water-drop",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": "anvk",
     "main": "index.js",
     "bin": {

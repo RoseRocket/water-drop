@@ -95,9 +95,9 @@ function run() {
     // create HBS context
 
     var context = _extends({}, configVars, templateVars, {
-        _tType: templateType,
-        _tName: templateName,
-        _tPath: templatePath,
+        _mType: templateType,
+        _mName: templateName,
+        _mPath: templatePath,
         _tFolder: config._tFolder,
         _tOpenTag: config._tOpenTag,
         _tCloseTag: config._tCloseTag
@@ -157,13 +157,11 @@ function parseCLIArgs() {
 
 
     if (helpArg || !templateType) {
-        console.log(_chalk2.default.blueBright('water-drop [-v] -t <template_type> -n <template_name> -p <template_path>'));
+        console.log(_chalk2.default.blueBright('water-drop [-v] -t <new_module_type> -n <new_module_name> -p <new_module_path>'));
         console.log('\n');
         console.log(_chalk2.default.blueBright('water-drop --list (To see all available template types)'));
         console.log('\n');
         console.log(_chalk2.default.blueBright('water-drop found the following templates: ', _chalk2.default.yellow.bgBlue.bold(templateTypes.join(' '))));
-        console.log(_chalk2.default.blueBright('Example for name: ', _chalk2.default.yellow.bgBlue.bold('MyNewShinyModule')));
-        console.log(_chalk2.default.blueBright('Example for path: ', _chalk2.default.yellow.bgBlue.bold('/admin/customers')));
         console.log('\n');
 
         return;
@@ -177,7 +175,7 @@ function parseCLIArgs() {
     }
 
     if (!templateTypes.includes(templateType)) {
-        console.log(_chalk2.default.red('Uh oh. I do not know this <template_type>!'));
+        console.log(_chalk2.default.red('Uh oh. I do not know this <new_module_type>!'));
         console.log(_chalk2.default.red('I only know these templates: ', _chalk2.default.yellow.bgRed.bold(templateTypes.join(' '))));
         console.log(_chalk2.default.red('Exiting...'));
         console.log('\n');
@@ -186,7 +184,7 @@ function parseCLIArgs() {
     }
 
     if (!templateName) {
-        console.log(_chalk2.default.red('Uh oh. I need a <template_name> to work correctly!'));
+        console.log(_chalk2.default.red('Uh oh. I need a <new_module_name> to work correctly!'));
         console.log(_chalk2.default.red('Run: water-drop -h to find on how to use this tool'));
         console.log(_chalk2.default.red('Exiting...'));
         console.log('\n');

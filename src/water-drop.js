@@ -134,12 +134,6 @@ export function parseCLIArgs(args = {}, templateTypes) {
                 chalk.yellow.bgBlue.bold(templateTypes.join(' '))
             )
         );
-        console.log(
-            chalk.blueBright('Example for name: ', chalk.yellow.bgBlue.bold('MyNewShinyModule'))
-        );
-        console.log(
-            chalk.blueBright('Example for path: ', chalk.yellow.bgBlue.bold('/admin/customers'))
-        );
         console.log('\n');
 
         return;

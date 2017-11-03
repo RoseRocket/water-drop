@@ -38,7 +38,7 @@ function cp() {
     var properToPath = toTemplate(context).replace(/\/\//gi, '/');
     var absoluteToPath = _path2.default.resolve(properToPath);
 
-    var properWhatPath = (context._tFolder + '/' + context._tType + '/' + stepOptions.what).replace(/\/\//i, '/');
+    var properWhatPath = (context._tFolder + '/' + context._mType + '/' + stepOptions.what).replace(/\/\//i, '/');
     var absoluteWhatPath = _path2.default.resolve(properWhatPath);
 
     if (isVerbose) {
