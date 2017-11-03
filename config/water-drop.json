@@ -2,11 +2,11 @@
     "templates": {
         "example": {
             "steps": [
-                { "cmd": "mkdir", "path": "{{projectPath}}/{{lcase _tName}}/{{_tPath}}" },
+                { "cmd": "mkdir", "path": "{{projectPath}}/{{lcase _mName}}/{{_tPath}}" },
                 {
                     "cmd": "cpf",
                     "what": "example.js",
-                    "to": "{{projectPath}}/{{lcase _tName}}/{{_tPath}}/example.js"
+                    "to": "{{projectPath}}/{{lcase _mName}}/{{_mPath}}/example.js"
                 }
             ],
 

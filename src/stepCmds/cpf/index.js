@@ -23,7 +23,7 @@ export function cpf(stepOptions = {}, context = {}, options = {}) {
     const properToPath = toTemplate(context).replace(/\/\//gi, '/');
     const absoluteToPath = path.resolve(properToPath);
 
-    const properWhatPath = (`${context._tFolder}/${context._tType}/` + stepOptions.what).replace(
+    const properWhatPath = (`${context._tFolder}/${context._mType}/` + stepOptions.what).replace(
         /\/\//i,
         '/'
     );
