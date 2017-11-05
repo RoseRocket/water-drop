@@ -114,9 +114,10 @@ More advanced steps and more template configurations could be specified within `
 ## Template Creation Example
 
 - Let's imagine our team need to create lots of new modules which have the same comment about MIT license.
+- Let's imagine we need to include a constant file inside our new module
 - Let's also imagine that our `water-drop` scripts located in the same path as our project.
 
-#### Step 1 (Create template config)
+#### Step 1 (add new config)
 
 ```js
 {
@@ -124,19 +125,27 @@ More advanced steps and more template configurations could be specified within `
         ...
         "licensedCode": {
             "steps": [
+                { "cmd": "mkdir", "path": "{{licensingProject}}/{{_mPath}}" },
                 {
                     "cmd": "cpf",
-                    "what": "license.js",
+                    "what": "licensedFile.js",
                     "to": "{{licensingProject}}/{{_mPath}}/{{lcase _mName}}.js"
+                },
+                {
+                    "cmd": "cp",
+                    "what": "constants.js",
+                    "to": "{{licensingProject}}/{{_mPath}}/constants.js"
                 }
             ],
 
-            "vars": {}
+            "vars": {
+                "author": "Alexey Novak"
+            }
         }
     },
     "vars": {
         ...
-        "licensingProject: "./",
+        "licensingProject": "./"
     },
     "_tFolder": "water-drop-templates",
     "_tOpenTag": "<%%",
@@ -144,26 +153,52 @@ More advanced steps and more template configurations could be specified within `
 }
 ```
 
-#### Step 2 (Create related files to our new template)
+#### Step 2 (Create related files for new template)
 
-Create folder `licensedCode` inside `water-drop-template/`
-Create file `license.js` inside `water-drop-template/licensedCode/`
+Create folder `water-drop-template/licensedCode/`
+
+Create file `water-drop-template/licensedCode/licensedFile.js`
 
 ```js
-// This code is under MIT license.
+// MIT © {{author}}
 
-function {{lcase _mName}}() {
+import * from './constants.js';
+
+function {{ucase _mName}}() {
 
 }
 
-export default {{lcase _mName}};
+export default {{ucase _mName}};
 ```
 
-#### Done (Test that it works)
+Create file `water-drop-template/licensedCode/constants.js`
 
-Run `$ water-drop -t licensedCode -n SumFunc -p /ui/utils`
+```js
+const config = {
+    VERSION: '1.0.0',
 
-This script should generate `ui/utils/sumFunc.js` in the same folder where you executed `water-drop` command
+    // place your config files here
+};
+
+export default config;
+```
+
+#### Done
+
+Run `$ water-drop -t licensedCode -n NewModule -p /ui/utils`
+
+New folder `ui/utils/` should be generated in the same folder as `water-drop.json` config file.
+
+With new file `ui/utils/constants.js` and modified `ui/utils/newModule.js`:
+```js
+// MIT © Alexey Novak
+
+function NewModule() {
+
+}
+
+export default NewModule;
+```
 
 ## Steps
 
