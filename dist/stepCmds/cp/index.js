@@ -5,6 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.cp = cp;
 
+var _handlebars = require('handlebars');
+
+var _handlebars2 = _interopRequireDefault(_handlebars);
+
+var _hbsHelpers = require('../../utils/hbsHelpers.js');
+
+var _hbsHelpers2 = _interopRequireDefault(_hbsHelpers);
+
 var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
@@ -18,6 +26,7 @@ var _fsExtra2 = _interopRequireDefault(_fsExtra);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var COMMAND = 'cp';
+var Handlebars = (0, _hbsHelpers2.default)(_handlebars2.default);
 
 function cp() {
     var stepOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -47,7 +56,7 @@ function cp() {
     }
 
     try {
-        _fsExtra2.default.copyFileSync(absoluteWhatPath, absoluteToPath);
+        _fsExtra2.default.copySync(absoluteWhatPath, absoluteToPath);
     } catch (error) {
         return '...."' + COMMAND + '" failed with ' + error;
     }

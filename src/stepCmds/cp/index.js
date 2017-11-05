@@ -1,8 +1,11 @@
+import hbs from 'handlebars';
+import hbsHelpers from '../../utils/hbsHelpers.js';
 import path from 'path';
 import { happyLog } from '../../utils/utils.js';
 import fs from 'fs-extra';
 
 const COMMAND = 'cp';
+const Handlebars = hbsHelpers(hbs);
 
 export function cp(stepOptions = {}, context = {}, options = {}) {
     const { isVerbose } = options;
@@ -31,7 +34,7 @@ export function cp(stepOptions = {}, context = {}, options = {}) {
     }
 
     try {
-        fs.copyFileSync(absoluteWhatPath, absoluteToPath);
+        fs.copySync(absoluteWhatPath, absoluteToPath);
     } catch (error) {
         return `...."${COMMAND}" failed with ${error}`;
     }

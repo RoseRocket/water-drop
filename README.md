@@ -111,9 +111,96 @@ This command should create `myModule/path/index.js` . It will be created one fol
 
 More advanced steps and more template configurations could be specified within `water-drop.json`
 
+## Template Creation Example
+
+- Let's imagine our team need to create lots of new modules which have the same comment about MIT license.
+- Let's imagine we need to include a constant file inside our new module
+- Let's also imagine that our `water-drop` scripts located in the same path as our project.
+
+#### Step 1 (add new config)
+
+```js
+{
+    "templates": {
+        ...
+        "licensedCode": {
+            "steps": [
+                { "cmd": "mkdir", "path": "{{licensingProject}}/{{_mPath}}" },
+                {
+                    "cmd": "cpf",
+                    "what": "licensedFile.js",
+                    "to": "{{licensingProject}}/{{_mPath}}/{{lcase _mName}}.js"
+                },
+                {
+                    "cmd": "cp",
+                    "what": "constants.js",
+                    "to": "{{licensingProject}}/{{_mPath}}/constants.js"
+                }
+            ],
+
+            "vars": {
+                "author": "Alexey Novak"
+            }
+        }
+    },
+    "vars": {
+        ...
+        "licensingProject": "./"
+    },
+    "_tFolder": "water-drop-templates",
+    "_tOpenTag": "<%%",
+    "_tCloseTag": "%%>"
+}
+```
+
+#### Step 2 (Create related files for new template)
+
+Create folder `water-drop-template/licensedCode/`
+
+Create file `water-drop-template/licensedCode/licensedFile.js`
+
+```js
+// MIT © {{author}}
+
+import * from './constants.js';
+
+function {{ucase _mName}}() {
+
+}
+
+export default {{ucase _mName}};
+```
+
+Create file `water-drop-template/licensedCode/constants.js`
+
+```js
+const config = {
+    VERSION: '1.0.0',
+
+    // place your config files here
+};
+
+export default config;
+```
+
+#### Done
+
+Run `$ water-drop -t licensedCode -n NewModule -p /ui/utils`
+
+New folder `ui/utils/` should be generated in the same folder as `water-drop.json` config file.
+
+With new file `ui/utils/constants.js` and modified `ui/utils/newModule.js`:
+```js
+// MIT © Alexey Novak
+
+function NewModule() {
+
+}
+
+export default NewModule;
+```
+
 ## Steps
-
-
 
 ### mkdir
 

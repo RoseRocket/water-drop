@@ -1,6 +1,6 @@
 {
     "name": "water-drop",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "author": "anvk",
     "main": "index.js",
     "bin": {
@@ -27,7 +27,32 @@
         "type": "git",
         "url": "git@github.com:anvk/water-drop.git"
     },
-    "keywords": [],
+    "keywords": [
+        "scaffold",
+        "scaffolding",
+        "app",
+        "project",
+        "bootstrap",
+        "boilerplate",
+        "boilerplates",
+        "generate",
+        "generator",
+        "plugin",
+        "project",
+        "skeleton",
+        "start",
+        "starter",
+        "tool",
+        "template",
+        "templating",
+        "toolkit",
+        "dev",
+        "development",
+        "build",
+        "cli",
+        "copy",
+        "init"
+    ],
     "dependencies": {
         "chalk": "2.3.0",
         "fs-extra": "4.0.2",
