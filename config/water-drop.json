@@ -6,7 +6,7 @@
                 {
                     "cmd": "cpf",
                     "what": "example.js",
-                    "to": "{{projectPath}}/{{lcase _mName}}/{{_mPath}}/example.js"
+                    "to": "{{projectPath}}/{{lcase _mName}}/{{_mPath}}/index.js"
                 }
             ],
 
