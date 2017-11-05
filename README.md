@@ -111,9 +111,61 @@ This command should create `myModule/path/index.js` . It will be created one fol
 
 More advanced steps and more template configurations could be specified within `water-drop.json`
 
+## Template Creation Example
+
+- Let's imagine our team need to create lots of new modules which have the same comment about MIT license.
+- Let's also imagine that our `water-drop` scripts located in the same path as our project.
+
+#### Step 1 (Create template config)
+
+```js
+{
+    "templates": {
+        ...
+        "licensedCode": {
+            "steps": [
+                {
+                    "cmd": "cpf",
+                    "what": "license.js",
+                    "to": "{{licensingProject}}/{{_mPath}}/{{lcase _mName}}.js"
+                }
+            ],
+
+            "vars": {}
+        }
+    },
+    "vars": {
+        ...
+        "licensingProject: "./",
+    },
+    "_tFolder": "water-drop-templates",
+    "_tOpenTag": "<%%",
+    "_tCloseTag": "%%>"
+}
+```
+
+#### Step 2 (Create related files to our new template)
+
+Create folder `licensedCode` inside `water-drop-template/`
+Create file `license.js` inside `water-drop-template/licensedCode/`
+
+```js
+// This code is under MIT license.
+
+function {{lcase _mName}}() {
+
+}
+
+export default {{lcase _mName}};
+```
+
+#### Done (Test that it works)
+
+Run `$ water-drop -t licensedCode -n SumFunc -p /ui/utils`
+
+This script should generate `ui/utils/sumFunc.js` in the same folder where you executed `water-drop` command
+
 ## Steps
-
-
 
 ### mkdir
 
