@@ -11,15 +11,6 @@ This tool was created keeping in mind the following conditions:
 2. It has to be **easy** to use. Nobody should go through pages of documentation or reading many lines of code in order to understand how this tool works.
 3. It has to be **easy** to setup new templates to be used by everyone. (For this project `Handlebars` was picked as the main templating engine for its simplicity. You can read more on `Handlebars` templating [here](http://handlebarsjs.com/))
 
-## Minimum Required Data for New Module (Idea)
-
-Here is the list of the minimum information required in order to create new code based on the existing template:
-
-1. **Type** type of the template to be used for a new module
-1. **Name**
-2. **Path** relative path where new module will reside inside of a bigger project codebase
-3. **Content** content of the files being copy-pasted with an ability to do few name changes afterwards
-
 ## Installation
 
 Global installation *(suggested)*
@@ -34,130 +25,80 @@ $ npm install water-drop
 $ node_modules/.bin/water-drop
 ```
 
-## Available Commands
+## Usage
 
-To init `water-drop` inside the folder. This command will generate a basic config file `water-drop.json` with templates configuration and `water-drop-templates/` folder where all template related files has to be placed.
 ```
-$ water-drop --init
+USAGE
+  $ water-drop <command>
+
+where <command> is one of:
+  init, list, template, create, uninit
+
+water-drop <command> -i     quick help on <command>
+
+EXAMPLES
+  $ water-drop init
+
+  $ water-drop create myNewShinyModule -t exampleModule -p path/within/my/project -v
+
+  $ water-drop list
+
+  $ water-drop template mySecondShinyModule
+
+  $ water-drop template moduleToRemove -d
+
+  $ water-drop uninit
 ```
-
-To find on how to use the tool
-```
-$ water-drop -h
-```
-
-To list all available templates
-```
-$ water-drop --list
-```
-
-To generate a new module with name `new_module_name` based on the template `new_module_type` with the template path `new_module_path`. What files are being copied over, how and what is the full path for the new module are detemined by configuration within `water-drop.json` file.
-```
-$ water-drop [-v] -t <new_module_type> -n <new_module_name> -p <new_module_path>
-```
-
-## Quick Start
-
-This tool requires `water-drop.json` and `water-drop-templates/` folder to be present in the folder where this command is executed. The following command will create those items with a sample `example` configuration and template files.
-```
-$ water-drop --init
-```
-
-New basic config will be created with one template `example` which uses 2 steps to create a new module using `water-drop-templates/example/example.js`
-
-```json
-{
-    "templates": {
-        "example": {
-            "steps": [
-                { "cmd": "mkdir", "path": "{{projectPath}}/{{lcase _mName}}/{{_mPath}}" },
-                {
-                    "cmd": "cpf",
-                    "what": "example.js",
-                    "to": "{{projectPath}}/{{lcase _mName}}/{{_mPath}}/index.js"
-                }
-            ],
-
-            "vars": {}
-        }
-    },
-    "vars": {
-        "projectPath": "../"
-    },
-    "_tFolder": "water-drop-templates",
-    "_tOpenTag": "<%%",
-    "_tCloseTag": "%%>"
-}
-```
-
-```js
-// example.js file
-
-const {{u_case_all _mName}}_CONST = 'Hello from water-drop !';
-
-function {{lcase _mName}}Func(arg) {
-    console.log({{u_case_all _mName}}_CONST);
-}
-
-export default {{lcase _mName}}Func;
-```
-
-Run the following command to scaffold a new module
-```
-$ water-drop -t example -n MyModule -p /path
-```
-
-This command should create `myModule/path/index.js` . It will be created one folder up from where your `water-drop.json` is located (since one of the example steps use `projectPath` variable to define project location. This variable is not required. You can define and use any other variables)
-
-More advanced steps and more template configurations could be specified within `water-drop.json`
 
 ## Template Creation Example
 
 - Let's imagine our team need to create lots of new modules which have the same comment about MIT license.
-- Let's imagine we need to include a constant file inside our new module
-- Let's also imagine that our `water-drop` scripts located in the same path as our project.
+- Let's imagine we need to include a constant file inside our new module.
 
-#### Step 1 (add new config)
+#### Step 1 (Init water-drop in the folder with future templates)
+
+```
+$ cd /my/amazing/project/
+
+$ water-drop init
+```
+
+#### Step 2 (Bootstrap new template)
+
+```
+$ water-drop template licensedCode
+```
+
+#### Step 3 (Modify auto-generated config)
+
+modify `water-drop-templates/licensedCode/config.json` file
 
 ```js
 {
-    "templates": {
-        ...
-        "licensedCode": {
-            "steps": [
-                { "cmd": "mkdir", "path": "{{licensingProject}}/{{_mPath}}" },
-                {
-                    "cmd": "cpf",
-                    "what": "licensedFile.js",
-                    "to": "{{licensingProject}}/{{_mPath}}/{{lcase _mName}}.js"
-                },
-                {
-                    "cmd": "cp",
-                    "what": "constants.js",
-                    "to": "{{licensingProject}}/{{_mPath}}/constants.js"
-                }
-            ],
-
-            "vars": {
-                "author": "Alexey Novak"
-            }
+    "steps": [
+        { "cmd": "mkdir", "path": "{{myProjectPath}}/{{_mPath}}" },
+        {
+            "cmd": "cpf",
+            "what": "licensedFile.js",
+            "to": "{{myProjectPath}}/{{_mPath}}/{{lcase _mName}}.js"
+        },
+        {
+            "cmd": "cp",
+            "what": "constants.js",
+            "to": "{{myProjectPath}}/{{_mPath}}/constants.js"
         }
-    },
+    ],
+
     "vars": {
-        ...
-        "licensingProject": "./"
-    },
-    "_tFolder": "water-drop-templates",
-    "_tOpenTag": "<%%",
-    "_tCloseTag": "%%>"
+        "myProjectPath": "./",
+        "author": "Alexey Novak"
+    }
 }
 ```
 
-#### Step 2 (Create related files for new template)
+#### Step 4 (Add template files)
 
-Create folder `water-drop-template/licensedCode/`
-
-Create file `water-drop-template/licensedCode/licensedFile.js`
+Create file `water-drop-template/licensedCode/__files/licensedFile.js`
 
 ```js
 // MIT © {{author}}
@@ -171,7 +112,7 @@ function {{ucase _mName}}() {
 export default {{ucase _mName}};
 ```
 
-Create file `water-drop-template/licensedCode/constants.js`
+Create file `water-drop-template/licensedCode/__files/constants.js`
 
 ```js
 const config = {
@@ -183,24 +124,15 @@ const config = {
 export default config;
 ```
 
-#### Done
+#### Step 5 (Run water-drop to generate new module based on the template)
 
-Run `$ water-drop -t licensedCode -n NewModule -p /ui/utils`
+Run `$ water-drop create NewModule -t licensedCode -p /ui/utils -v`
 
 New folder `ui/utils/` should be generated in the same folder as `water-drop.json` config file.
 
-With new file `ui/utils/constants.js` and modified `ui/utils/newModule.js`:
-```js
-// MIT © Alexey Novak
+With new files `ui/utils/constants.js` and `ui/utils/newModule.js`
 
-function NewModule() {
-
-}
-
-export default NewModule;
-```
-
-## Steps
+## Available 3 Config Steps
 
 ### mkdir
 
@@ -210,7 +142,7 @@ export default NewModule;
 
 | Property | Description | Can Use Templating
 :---|:---|:---
-| `mkdir` | New folder path. The whole folder tree will be created if does not exist. Path is relative to the folder where `water-drop` command is executed. | Yes |
+| `path` | New folder path. The whole folder tree will be created if does not exist. Path is relative to the folder where `water-drop` command is executed. | Yes |
 
 ### cp
 
@@ -281,6 +213,22 @@ style=<%% weight: 50px, height: 50px %%>
 will be converted to
 
 style={{ weight: 50px, height: 50px }}
+```
+
+Also you might face a problem when trying to replace a value within the object. Example:
+
+```js
+// some of my react code
+
+object={this.props.{{lcase _mName}}}
+
+// this would fail since Handlebars would not like those closing }}}
+```
+
+You will need to re-write it as
+
+```
+object={this.props.{{lcase _mName}} }
 ```
 
 ## Future Improvements
