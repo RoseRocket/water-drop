@@ -22,10 +22,8 @@ export function cp(stepOptions = {}, context = {}, options = {}) {
     const properToPath = toTemplate(context).replace(/\/\//gi, '/');
     const absoluteToPath = path.resolve(properToPath);
 
-    const properWhatPath = (`${context._tFolder}/${context._mType}/` + stepOptions.what).replace(
-        /\/\//i,
-        '/'
-    );
+    const properWhatPath = (`${context._tFolder}/${context._mType}/__files/` + stepOptions.what
+    ).replace(/\/\//i, '/');
     const absoluteWhatPath = path.resolve(properWhatPath);
 
     if (isVerbose) {

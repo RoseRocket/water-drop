@@ -14,6 +14,7 @@ export function mkdir(stepOptions = {}, context = {}, options = {}) {
         return `"${COMMAND}" is missing "path" property`;
     }
 
+    console.log('context', context);
     const pathTemplate = Handlebars.compile(stepOptions.path);
     const properPath = pathTemplate(context).replace(/\/\//gi, '/');
     const absolutePath = path.resolve(properPath);

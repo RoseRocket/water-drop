@@ -1,0 +1,9 @@
+{
+    "templates": [],
+    "vars": {
+        "sharedVar": "something-useful-here"
+    },
+    "_tFolder": "water-drop-templates",
+    "_tOpenTag": "<%%",
+    "_tCloseTag": "%%>"
+}

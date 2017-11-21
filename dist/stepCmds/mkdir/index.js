@@ -39,6 +39,7 @@ function mkdir() {
         return '"' + COMMAND + '" is missing "path" property';
     }
 
+    console.log('context', context);
     var pathTemplate = Handlebars.compile(stepOptions.path);
     var properPath = pathTemplate(context).replace(/\/\//gi, '/');
     var absolutePath = _path2.default.resolve(properPath);

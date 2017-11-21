@@ -1,0 +1,14 @@
+{
+    "steps": [
+        { "cmd": "mkdir", "path": "{{projectPath}}/{{lcase _mName}}/{{_mPath}}" },
+        {
+            "cmd": "cpf",
+            "what": "example.js",
+            "to": "{{projectPath}}/{{lcase _mName}}/{{_mPath}}/index.js"
+        }
+    ],
+
+    "vars": {
+        "projectPath": "../"
+    }
+}
