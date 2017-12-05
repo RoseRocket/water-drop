@@ -1,6 +1,6 @@
 {
     "name": "water-drop",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "author": "anvk",
     "main": "index.js",
     "bin": {
@@ -25,7 +25,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git@github.com:anvk/water-drop.git"
+        "url": "git@github.com:roserocket/water-drop.git"
     },
     "keywords": [
         "scaffold",
@@ -76,9 +76,9 @@
         "rimraf": "2.5.4"
     },
     "engine": "node >= 0.10.x",
-    "homepage": "https://github.com/anvk/water-drop",
+    "homepage": "https://github.com/roserocket/water-drop",
     "bugs": {
-        "url": "https://github.com/anvk/water-drop/issues"
+        "url": "https://github.com/roserocket/water-drop/issues"
     },
     "private": false,
     "license": "MIT"
